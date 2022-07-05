@@ -42,6 +42,7 @@ dependencies:
   http: ^0.13.4
   path_provider: ^2.0.11
   share_plus: ^4.0.10
+  mask_text_input_formatter: ^2.3.0
 
 dev_dependencies:
   flutter_test:
