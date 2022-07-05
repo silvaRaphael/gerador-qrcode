@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,11 +10,12 @@ class MyTextInput extends StatelessWidget {
   TextInputFormatter formatter;
 
   MyTextInput({
+    Key? key,
     required this.controller,
     required this.hintText,
     required this.inputType,
     required this.formatter,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

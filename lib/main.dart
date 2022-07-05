@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -53,6 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
   final TextEditingController _textcontroller = TextEditingController();
   final TextEditingController _phonenumbercontroller = TextEditingController();
   final TextEditingController _wifipasswordcontroller = TextEditingController();
+  final TextEditingController _firstnamecontroller = TextEditingController();
+  final TextEditingController _lastnamecontroller = TextEditingController();
+  final TextEditingController _telnumbercontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _sitecontroller = TextEditingController();
+  final TextEditingController _companycontroller = TextEditingController();
+  final TextEditingController _titlecontroller = TextEditingController();
+  final TextEditingController _faxcontroller = TextEditingController();
+  final TextEditingController _addresscontroller = TextEditingController();
+  final TextEditingController _citycontroller = TextEditingController();
+  final TextEditingController _cepcontroller = TextEditingController();
+  final TextEditingController _statecontroller = TextEditingController();
 
   MaskTextInputFormatter phoneNumberMask = MaskTextInputFormatter(
     mask: '+## (##) #####-####',
@@ -94,7 +108,22 @@ class _MyHomePageState extends State<MyHomePage> {
         if (_textcontroller.text.trim().isNotEmpty &&
             _wifipasswordcontroller.text.trim().isNotEmpty) valid = true;
         break;
+      case 'contato':
+        url =
+            'https://geradordeqrcode.com.br/phpqrcode/?type=$qrcodeSelected&tel=${phoneNumberMask.getUnmaskedText()}&nome=${_firstnamecontroller.text.trim()}&ultimo_nome=${_lastnamecontroller.text.trim()}&empresa=${_companycontroller.text.trim()}&cargo=${_titlecontroller.text.trim()}&fax=${_faxcontroller.text.trim()}&endereco=${_addresscontroller.text.trim()}&cidade=${_citycontroller.text.trim()}&cep=${_cepcontroller.text.trim()}&estado=${_statecontroller.text.trim()}&email=${_emailcontroller.text.trim()}&site_url=${_sitecontroller.text.trim()}';
+        bool emailValid = true;
+        if (_emailcontroller.text.trim().isNotEmpty) {
+          emailValid = RegExp(
+                  r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              .hasMatch(_emailcontroller.text.trim());
+        }
+        if (phoneNumberMask.getUnmaskedText().isNotEmpty && emailValid) {
+          valid = true;
+        }
+        break;
     }
+
+    print(phoneNumberMask.getUnmaskedText());
 
     if (valid && url.isNotEmpty) {
       final response = await get(Uri.parse(url), headers: {'Accept': '*'});
@@ -105,8 +134,20 @@ class _MyHomePageState extends State<MyHomePage> {
         _textcontroller.text = '';
         wifiCriptation = 'WPA';
         _wifipasswordcontroller.text = '';
-        _phonenumbercontroller.text = '';
         phoneNumberMask.clear();
+        _phonenumbercontroller.text = '';
+        _firstnamecontroller.text = '';
+        _lastnamecontroller.text = '';
+        _telnumbercontroller.text = '';
+        _sitecontroller.text = '';
+        _companycontroller.text = '';
+        _titlecontroller.text = '';
+        _faxcontroller.text = '';
+        _addresscontroller.text = '';
+        _citycontroller.text = '';
+        _cepcontroller.text = '';
+        _statecontroller.text = '';
+        _emailcontroller.text = '';
       });
     } else {
       setState(() {
@@ -136,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   contentToLoad() {
-    var contentToReturn = null;
+    Widget contentToReturn;
 
     switch (qrcodeSelected) {
       case 'text':
@@ -162,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
               inputType: TextInputType.number,
               controller: _phonenumbercontroller,
               formatter: phoneNumberMask,
-              hintText: '55 11 90000-0000',
+              hintText: 'Número',
             ),
             MyTextInput(
               inputType: TextInputType.text,
@@ -178,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
           inputType: TextInputType.number,
           controller: _phonenumbercontroller,
           formatter: phoneNumberMask,
-          hintText: '55 11 90000-0000',
+          hintText: 'Número',
         );
         break;
       case 'wifi':
@@ -221,18 +262,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 dropdownColor: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 underline: SizedBox(),
-                items: <DropdownMenuItem<String>>[
+                items: const <DropdownMenuItem<String>>[
                   DropdownMenuItem(
-                    child: Text('WPA/WPA2'),
                     value: 'WPA',
+                    child: Text('WPA/WPA2'),
                   ),
                   DropdownMenuItem(
-                    child: Text('WEP'),
                     value: 'WEP',
+                    child: Text('WEP'),
                   ),
                   DropdownMenuItem(
-                    child: Text('Nenhuma'),
                     value: 'none',
+                    child: Text('Nenhuma'),
                   ),
                 ],
               ),
@@ -243,6 +284,84 @@ class _MyHomePageState extends State<MyHomePage> {
               formatter: MaskTextInputFormatter(),
               hintText: 'Senha',
             )
+          ],
+        );
+        break;
+      case 'contato':
+        contentToReturn = Column(
+          children: [
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _firstnamecontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Primeiro nome',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _lastnamecontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Último nome',
+            ),
+            MyTextInput(
+              inputType: TextInputType.number,
+              controller: _phonenumbercontroller,
+              formatter: phoneNumberMask,
+              hintText: 'Celular',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _emailcontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'E-mail',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _sitecontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Site',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _companycontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Empresa',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _titlecontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Cargo',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _faxcontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Fax',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _addresscontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Endereço',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _citycontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Cidade',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _cepcontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'CEP',
+            ),
+            MyTextInput(
+              inputType: TextInputType.text,
+              controller: _statecontroller,
+              formatter: MaskTextInputFormatter(),
+              hintText: 'Estado',
+            ),
           ],
         );
         break;
@@ -269,7 +388,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Container(
-              // height: MediaQuery.of(context).size.height - 80,
+              padding: const EdgeInsets.symmetric(vertical: 20),
               constraints: BoxConstraints(
                 minHeight: MediaQuery.of(context).size.height - 80,
               ),
@@ -330,30 +449,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       dropdownColor: Color(0xFFF8F4FF),
                       borderRadius: BorderRadius.all(Radius.circular(8)),
                       underline: SizedBox(),
-                      items: <DropdownMenuItem<String>>[
+                      items: const <DropdownMenuItem<String>>[
                         DropdownMenuItem(
-                          child: Text('Texto'),
                           value: 'text',
+                          child: Text('Texto'),
                         ),
                         DropdownMenuItem(
-                          child: Text('Link'),
                           value: 'link',
+                          child: Text('Link'),
                         ),
                         DropdownMenuItem(
-                          child: Text('Whatsapp'),
                           value: 'whatsapp',
+                          child: Text('Whatsapp'),
                         ),
                         DropdownMenuItem(
-                          child: Text('Ligação'),
                           value: 'tel',
+                          child: Text('Ligação'),
                         ),
                         DropdownMenuItem(
-                          child: Text('WI-FI'),
                           value: 'wifi',
+                          child: Text('WI-FI'),
                         ),
                         DropdownMenuItem(
-                          child: Text('Contato'),
                           value: 'contato',
+                          child: Text('Contato'),
                         ),
                       ],
                     ),
