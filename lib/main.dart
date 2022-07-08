@@ -110,7 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
         break;
       case 'contato':
         url =
-            'https://geradordeqrcode.com.br/phpqrcode/?type=$qrcodeSelected&tel=${phoneNumberMask.getUnmaskedText()}&nome=${_firstnamecontroller.text.trim()}&ultimo_nome=${_lastnamecontroller.text.trim()}&empresa=${_companycontroller.text.trim()}&cargo=${_titlecontroller.text.trim()}&fax=${_faxcontroller.text.trim()}&endereco=${_addresscontroller.text.trim()}&cidade=${_citycontroller.text.trim()}&cep=${_cepcontroller.text.trim()}&estado=${_statecontroller.text.trim()}&email=${_emailcontroller.text.trim()}&site_url=${_sitecontroller.text.trim()}';
+            'https://geradordeqrcode.com.br/phpqrcode/?type=$qrcodeSelected&cel=${phoneNumberMask.getUnmaskedText()}&nome=${_firstnamecontroller.text.trim()}&ultimo_nome=${_lastnamecontroller.text.trim()}&empresa=${_companycontroller.text.trim()}&cargo=${_titlecontroller.text.trim()}&fax=${_faxcontroller.text.trim()}&endereco=${_addresscontroller.text.trim()}&cidade=${_citycontroller.text.trim()}&cep=${_cepcontroller.text.trim()}&estado=${_statecontroller.text.trim()}&email=${_emailcontroller.text.trim()}&site_url=${_sitecontroller.text.trim()}';
         bool emailValid = true;
         if (_emailcontroller.text.trim().isNotEmpty) {
           emailValid = RegExp(
